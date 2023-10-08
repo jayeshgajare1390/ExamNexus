@@ -18,6 +18,15 @@ public class AbsentStudentController {
     public AbsentStudentController(AbsentStudentRepository absentStudentRepository) {
         this.absentStudentRepository = absentStudentRepository;
     }
+    @PostMapping("/delete")
+    public ResponseEntity<String> deleteAbsentStudent(
+            @RequestParam int prn,
+            @RequestParam Integer blockNumber,
+            @RequestParam String date) {
+        absentStudentRepository.deleteByPrnAndBlockNoAndDate(prn, blockNumber, date);
+        return new ResponseEntity<>("Record(s) deleted successfully", HttpStatus.OK);
+    }
+
 
     @PostMapping("/save")
     public ResponseEntity<String> saveAbsentStudents(@RequestBody List<AbsentStudent> absentStudents) {

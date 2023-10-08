@@ -2,9 +2,12 @@ package com.example.absentData;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import jakarta.transaction.Transactional;
 
 @Repository
 public interface AbsentStudentRepository extends JpaRepository<AbsentStudent, Long> {
@@ -18,4 +21,8 @@ public interface AbsentStudentRepository extends JpaRepository<AbsentStudent, Lo
 
     @Query(value = "SELECT * FROM absent_student WHERE block_no = ?1 AND date = ?2", nativeQuery = true)
     List<AbsentStudent> findAbsentStudentsByBlockNoAndDate(Integer blockNo, String date);
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM AbsentStudent a WHERE a.prn = :prn AND a.block_no = :blockNo AND a.date = :date")
+    void deleteByPrnAndBlockNoAndDate(@Param("prn") int prn, @Param("blockNo") Integer blockNo, @Param("date") String date);
 }

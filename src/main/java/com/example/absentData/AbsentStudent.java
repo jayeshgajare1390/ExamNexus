@@ -13,7 +13,7 @@ public class AbsentStudent {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
-	private Double prn;
+	private int prn;
     private String studentname;
     private String programname;
     private Integer block_no;
@@ -29,10 +29,10 @@ public class AbsentStudent {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Double getPrn() {
+	public int getPrn() {
 		return prn;
 	}
-	public void setPrn(Double prn) {
+	public void setPrn(int prn) {
 		this.prn = prn;
 	}
 	public String getStudentname() {
