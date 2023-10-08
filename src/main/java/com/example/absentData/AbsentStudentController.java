@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -19,13 +20,20 @@ public class AbsentStudentController {
         this.absentStudentRepository = absentStudentRepository;
     }
     @PostMapping("/delete")
-    public ResponseEntity<String> deleteAbsentStudent(
-            @RequestParam int prn,
-            @RequestParam Integer blockNumber,
-            @RequestParam String date) {
+    public ResponseEntity<Map<String, String>> deleteAbsentStudent(@RequestBody Map<String, Object> params) {
+        int prn = (int) params.get("prn");
+        int blockNumber = (int) params.get("blockNumber");
+        String date = (String) params.get("date");
+
         absentStudentRepository.deleteByPrnAndBlockNoAndDate(prn, blockNumber, date);
-        return new ResponseEntity<>("Record(s) deleted successfully", HttpStatus.OK);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Record(s) deleted successfully");
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+
 
 
     @PostMapping("/save")
