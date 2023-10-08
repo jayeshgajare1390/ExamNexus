@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.absentData.AbsentStudent;
 
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/MalPractice-students")
@@ -18,7 +18,19 @@ public class MalPracticeStudentController {
     public MalPracticeStudentController(MalPracticeStudentRepository MalPracticeStudentRepository) {
         this.MalPracticeStudentRepository = MalPracticeStudentRepository;
     }
+    @PostMapping("/delete")
+    public ResponseEntity<Map<String, String>> deleteMalPracticeStudent(@RequestBody Map<String, Object> params) {
+        int prn = (int) params.get("prn");
+        int blockNumber = (int) params.get("blockNumber");
+        String date = (String) params.get("date");
 
+        MalPracticeStudentRepository.deleteByPrnAndBlockNoAndDate(prn, blockNumber, date);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Record(s) deleted successfully");
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
     @PostMapping("/save")
     public ResponseEntity<String> saveMalPracticeStudents(@RequestBody List<MalPracticeStudent> MalPracticeStudents) {
     	for (MalPracticeStudent student : MalPracticeStudents) {
